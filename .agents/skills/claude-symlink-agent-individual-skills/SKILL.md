@@ -1,6 +1,6 @@
 ---
 name: claude-symlink-agent-individual-skills
-description: Mirror each individual skill under `.agents/skills/<name>/` into a `.claude/skills/<name>` relative symlink so Claude Code's harness auto-discovers it — but only for skills that don't already have a correct link. Idempotent and non-destructive: existing correct symlinks PASS, wrong symlinks are flagged as CONFLICT (or replaced with --force), and real files/directories are never clobbered. Uses a zero-dependency native script (Node .mjs or Python 3). Use when a SKILL.md under .agents/skills/ is invisible to the harness, when bulk-onboarding a repo that adopts the `.agents/` convention, or after pulling new skills into `.agents/skills/`.
+description: Mirror each individual skill under `.agents/skills/<name>/` into a `.claude/skills/<name>` relative symlink so Claude Code's harness auto-discovers it — but only for skills that don't already have a correct link. Idempotent and non-destructive — existing correct symlinks pass, wrong symlinks are flagged as conflicts (or replaced with --force), and real files/directories are never clobbered. Uses a zero-dependency native script (Node .mjs or Python 3). Use when a SKILL.md under .agents/skills/ is invisible to the harness, when bulk-onboarding a repo that adopts the `.agents/` convention, or after pulling new skills into `.agents/skills/`.
 tier: project
 ---
 
