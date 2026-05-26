@@ -12,6 +12,8 @@
 #   --ref <branch|tag>      REF          (default: main)
 #   --checkout <dir>        CHECKOUT_DIR (default: ${XDG_DATA_HOME:-$HOME/.local/share}/<repo-name>)
 #   --link-dir <dir>        LINK_DIR     (default: $HOME/.claude/skills)
+#   --skill <name>          ONLY         link just this one skill (default: claude-symlink-agent-individual-skills)
+#   --all                   ALL=1        link every bundled skill, not just the default one
 #   --force                 FORCE=1      replace a wrong-target symlink (never a real path)
 #   --run                   RUN=1        also link into the CURRENT project's .claude/skills
 #   --dry-run               DRY_RUN=1    report only; change nothing
@@ -21,6 +23,8 @@ set -euo pipefail
 REPO="${REPO:-carlosmarte/claude-symlink-agent-individual-skills}"
 REF="${REF:-main}"
 LINK_DIR="${LINK_DIR:-$HOME/.claude/skills}"
+ONLY="${ONLY:-claude-symlink-agent-individual-skills}"
+ALL="${ALL:-0}"
 FORCE="${FORCE:-0}"
 RUN="${RUN:-0}"
 DRY_RUN="${DRY_RUN:-0}"
@@ -32,6 +36,8 @@ while [ $# -gt 0 ]; do
     --ref) REF="$2"; shift 2 ;;
     --checkout) CHECKOUT_DIR="$2"; shift 2 ;;
     --link-dir) LINK_DIR="$2"; shift 2 ;;
+    --skill) ONLY="$2"; shift 2 ;;
+    --all) ALL=1; shift ;;
     --force) FORCE=1; shift ;;
     --run) RUN=1; shift ;;
     --dry-run) DRY_RUN=1; shift ;;
@@ -70,6 +76,7 @@ run mkdir -p "$LINK_DIR"
 for src in "$SRC_DIR"/*/; do
   [ -f "${src}SKILL.md" ] || continue
   name="$(basename "$src")"
+  [ "$ALL" = 1 ] || [ "$name" = "$ONLY" ] || continue
   src="${src%/}"
   dst="$LINK_DIR/$name"
   if [ ! -e "$dst" ] && [ ! -L "$dst" ]; then

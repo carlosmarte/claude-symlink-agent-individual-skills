@@ -6,40 +6,33 @@ don't already have a correct link. Idempotent and non-destructive.
 
 ## Install with `npx skills`
 
-The quickest approach uses the open `skills` CLI. To install everything project-wide:
+The quickest approach uses the open `skills` CLI. To install this skill project-wide:
 
 ```sh
-npx skills add carlosmarte/claude-symlink-agent-individual-skills
+npx skills add carlosmarte/claude-symlink-agent-individual-skills \
+  --skill claude-symlink-agent-individual-skills
 ```
 
-Or globally across your system:
-
-```sh
-npx skills add carlosmarte/claude-symlink-agent-individual-skills -g
-```
-
-Preview the available skills before installing:
-
-```sh
-npx skills add carlosmarte/claude-symlink-agent-individual-skills --list
-```
-
-To add just this skill to Claude Code globally:
+Or globally across your system, scoped to Claude Code:
 
 ```sh
 npx skills add carlosmarte/claude-symlink-agent-individual-skills \
   --skill claude-symlink-agent-individual-skills -g -a claude-code
 ```
 
-To combine multiple skills and agents, specify them together:
+Preview before installing, or skip the confirmation prompt with `-y`:
 
 ```sh
+npx skills add carlosmarte/claude-symlink-agent-individual-skills --list
+
 npx skills add carlosmarte/claude-symlink-agent-individual-skills \
-  --skill claude-symlink-agent-individual-skills --skill agent-skill-kit-commons \
-  -g -a claude-code -y
+  --skill claude-symlink-agent-individual-skills -g -a claude-code -y
 ```
 
-Management commands let you list, update, or remove installed skills afterward.
+Management commands let you list, update, or remove the installed skill afterward.
+
+> Once installed, run the skill against any repo to symlink **all** of that repo's
+> `.agents/skills/*` into its `.claude/skills/` — that mirroring is the skill's job.
 
 ## Alternative: one-shot install via `curl`
 
@@ -49,12 +42,12 @@ Requiring no `npx`/Node.js, use the bundled installer:
 curl -fsSL https://raw.githubusercontent.com/carlosmarte/claude-symlink-agent-individual-skills/main/install.sh | bash
 ```
 
-This clones the repository and creates symlinks in `~/.claude/skills/`. The process is
-idempotent (existing correct links are left alone; real files/directories are never
-clobbered) and can be customized with flags:
+This clones the repository and symlinks **only** the `claude-symlink-agent-individual-skills`
+skill into `~/.claude/skills/`. The process is idempotent (existing correct links are left
+alone; real files/directories are never clobbered) and can be customized with flags:
 
 ```sh
-# Also link into the current project's .claude/skills after the global install
+# Also link the skill into the current project's .claude/skills after the global install
 curl -fsSL https://raw.githubusercontent.com/carlosmarte/claude-symlink-agent-individual-skills/main/install.sh | bash -s -- --run
 
 # Preview only — change nothing
@@ -63,7 +56,8 @@ curl -fsSL https://raw.githubusercontent.com/carlosmarte/claude-symlink-agent-in
 
 You can specify checkout location, branch/tag, or link directory via flags or environment
 variables (`--checkout` / `CHECKOUT_DIR`, `--ref` / `REF`, `--link-dir` / `LINK_DIR`,
-`--force`). Run `install.sh --help` for the full list.
+`--force`). Pass `--all` to link every bundled skill instead of just this one. Run
+`install.sh --help` for the full list.
 
 ## Usage (without installing)
 
