@@ -6,11 +6,12 @@ don't already have a correct link. Idempotent and non-destructive.
 
 ## Install with `npx skills`
 
-The quickest approach uses the open `skills` CLI. To install this skill project-wide:
+The quickest approach uses the open `skills` CLI. To download this skill into the current
+project's `.claude/skills/claude-symlink-agent-individual-skills/`:
 
 ```sh
 npx skills add carlosmarte/claude-symlink-agent-individual-skills \
-  --skill claude-symlink-agent-individual-skills
+  --skill claude-symlink-agent-individual-skills -a claude-code
 ```
 
 Or globally across your system, scoped to Claude Code:
